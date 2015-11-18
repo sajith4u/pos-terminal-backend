@@ -1,0 +1,52 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+         http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
+
+    <context:annotation-config/>
+    <import resource="pos-server-custom-context.xml"/>
+
+    <jaxrs:server name="sdp-simulator" address="${pos.server.api.url}">
+        <jaxrs:serviceBeans>
+            <ref bean="sdpSimulatorListener"/>
+            <ref bean="swaggerResourceJSON"/>
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+            <ref bean="jacksonProvider"/>
+            <ref bean="resourceWriter"/>
+            <ref bean="apiWriter"/>
+            <ref bean="corsFilter"/>
+        </jaxrs:providers>
+    </jaxrs:server>
+
+    <bean id="corsFilter" class="org.apache.cxf.rs.security.cors.CrossOriginResourceSharingFilter"/>
+
+    <bean id="swaggerResourceJSON" class="com.wordnik.swagger.jaxrs.listing.ApiListingResourceJSON"/>
+
+    <!-- Swagger writers -->
+    <bean id="resourceWriter" class="com.wordnik.swagger.jaxrs.listing.ResourceListingProvider"/>
+    <bean id="apiWriter" class="com.wordnik.swagger.jaxrs.listing.ApiDeclarationProvider"/>
+
+
+    <bean id="jacksonProvider" class="org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider"/>
+
+    <bean class="dev.innova.pos.api.impl.CustomerManagementImpl"
+          id="sdpSimulatorListener"/>
+
+    <bean id="swaggerConfig" class="com.wordnik.swagger.jaxrs.config.BeanConfig">
+        <property name="resourcePackage" value="dev.innova.pos.api"/>
+        <property name="version" value="1.0.0"/>
+        <property name="basePath" value="${pos.server.api.url}"/>
+        <property name="title" value="Point Repo Rest API"/>
+        <property name="description" value="Pos Server Backend Terminal"/>
+        <property name="contact" value="sajith.vijesekara@gmail.com"/>
+        <property name="license" value="Apache 2.0 License"/>
+        <property name="licenseUrl" value="http://www.apache.org/licenses/LICENSE-2.0.html"/>
+        <property name="scan" value="true"/>
+    </bean>
+
+
+</beans>

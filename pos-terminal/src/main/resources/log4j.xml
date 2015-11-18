@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ /*
+  ~  *
+  ~  *  *   (C) Copyright 2012-2013 hSenid Software International (Pvt) Limited.
+  ~  *  *   All Rights Reserved.
+  ~  *  *
+  ~  *  *   These materials are unpublished, proprietary, confidential source code of
+  ~  *  *   hSenid Software International (Pvt) Limited and constitute a TRADE SECRET
+  ~  *  *   of hSenid Software International (Pvt) Limited.
+  ~  *  *
+  ~  *  *   hSenid Software International (Pvt) Limited retains all title to and intellectual
+  ~  *  *   property rights in these materials.
+  ~  *  *
+  ~  *
+  ~  */
+  -->
+
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration debug="false" xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+    <!--
+       Read http://logging.apache.org/log4j/docs/api/org/apache/log4j/DailyRollingFileAppender.html
+       for more information on DaliyRollingFileAppender configuration options.
+    -->
+    <appender name="error" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="/hms/logs/pos-server/pos-server-error.log"/>
+        <param name="Threshold" value="error"/>
+        <param name="DatePattern" value="'.'yyyy-MM-dd-HH"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{DATE} %-5p %c{1} - %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="trace" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="/hms/logs/pos-server/pos-server-trace.log"/>
+        <param name="Threshold" value="debug"/>
+        <param name="DatePattern" value="'.'yyyy-MM-dd-HH"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{DATE} %-5p %c{1} - %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="info" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="/hms/logs/pos-server/pos-server-info.log"/>
+        <param name="Threshold" value="info"/>
+        <param name="DatePattern" value="'.'yyyy-MM-dd-HH"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{DATE} %-5p %c{1} - %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="console" class="org.apache.log4j.ConsoleAppender">
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%t] - %m%n"/>
+        </layout>
+    </appender>
+
+    <category name="error" additivity="false">
+        <priority value="error"/>
+        <appender-ref ref="error"/>
+    </category>
+
+    <category name="trace" additivity="false">
+        <priority value="debug"/>
+        <appender-ref ref="trace"/>
+    </category>
+
+    <category name="info" additivity="false">
+        <priority value="info"/>
+        <appender-ref ref="info"/>
+    </category>
+    <!-- spring -->
+    <category name="org.springframework" additivity="true">
+        <priority value="info"/>
+        <appender-ref ref="error"/>
+        <appender-ref ref="console"/>
+    </category>
+
+    <category name="com.mchange" additivity="false">
+        <priority value="error"/>
+        <appender-ref ref="error"/>
+    </category>
+
+    <category name="org.apache.cxf" additivity="false">
+        <priority value="error"/>
+        <appender-ref ref="error"/>
+    </category>
+
+    <category name="hms.mchoice" additivity="false">
+        <priority value="debug"/>
+        <appender-ref ref="trace"/>
+    </category>
+
+    <root>
+        <priority value="debug"/>
+        <appender-ref ref="console"/>
+        <appender-ref ref="error"/>
+        <appender-ref ref="trace"/>
+        <appender-ref ref="info"/>
+    </root>
+
+</log4j:configuration>
