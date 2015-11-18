@@ -6,6 +6,7 @@ public class Customer {
     private String lastName;
     private String email;
     private String phoneNumber;
+    private String bankNumber;
     private String gender;
 
     public int getId() {
@@ -56,6 +57,14 @@ public class Customer {
         this.gender = gender;
     }
 
+    public String getBankNumber() {
+        return bankNumber;
+    }
+
+    public void setBankNumber(String bankNumber) {
+        this.bankNumber = bankNumber;
+    }
+
     @Override
     public String toString() {
         return "Customer{" +
@@ -64,6 +73,7 @@ public class Customer {
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
+                ", bankNumber='" + bankNumber + '\'' +
                 ", gender='" + gender + '\'' +
                 '}';
     }
