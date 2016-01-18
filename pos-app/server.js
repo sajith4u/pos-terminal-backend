@@ -2,6 +2,13 @@ var express = require('express');
 var database = require('sequelize');
 var app = express();
 var bodyParser = require('body-parser');
+var mysql = require('mysql');
+var connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'user',
+    password: 'password',
+    database: 'pos_api'
+});
 
 
 app.use(bodyParser.urlencoded({extended: true}));
@@ -31,14 +38,55 @@ router.get('/products', function (req, res) {
                     name: 'Burger1',
                     price: "Rs 200/-"
                 },
-                {id: '00002', name: 'Burger2', price: "Rs 300/-"},
-                {id: '00003', name: 'Burger3', price: "Rs 400/-"},
-                {id: '00004', name: 'Burger4', price: "Rs 500/-"},
-                {id: '00005', name: 'Burger5', price: "Rs 600/-"},
-                {id: '00006', name: 'Burger6', price: "Rs 700/-"}
+                {
+                    id: '00002',
+                    name: 'Burger2',
+                    price: "Rs 300/-"
+                },
+                {
+                    id: '00003',
+                    name: 'Burger3',
+                    price: "Rs 400/-"
+                },
+                {
+                    id: '00004',
+                    name: 'Burger4',
+                    price: "Rs 500/-"
+                },
+                {
+                    id: '00005',
+                    name: 'Burger5',
+                    price: "Rs 600/-"
+                },
+                {
+                    id: '00006',
+                    name: 'Burger6',
+                    price: "Rs 700/-"
+                }
             ]
         }
     );
+});
+
+router.get('/products/:id', function (req, res, value) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    var productId = req.params.id;
+    console.log("Prodcut Id : " + productId);
+    var result;
+    connection.query('SELECT * from user', function (err, rows, fields) {
+        connection.end();
+        if (!err) {
+            console.log('The solution is: ', rows);
+            result = this.rows;
+
+        }
+        else {
+            console.log('Error while performing Query.');
+        }
+    });
+    res.json(result);
+
 });
 
 router.get('/users', function (req, res) {
