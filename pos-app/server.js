@@ -3,6 +3,7 @@ var database = require('sequelize');
 var app = express();
 var bodyParser = require('body-parser');
 var mysql = require('mysql');
+var AsciiBanner = require('ascii-banner');
 var connection = mysql.createConnection({
     host: 'localhost',
     user: 'user',
@@ -193,6 +194,9 @@ router.get('/users', function (req, res) {
 app.use('/api', router);
 
 app.listen(port);
-console.log('Magic happens on port ' + port);
+AsciiBanner
+    .write('pos-app')
+    .color('blue')
+    .out();
 
 
