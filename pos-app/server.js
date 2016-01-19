@@ -4,6 +4,10 @@ var app = express();
 var bodyParser = require('body-parser');
 var mysql = require('mysql');
 var AsciiBanner = require('ascii-banner');
+var log4js = require('log4js');
+log4js.configure('config/log4js.json', {cwd: '/hms/logs/pos-app/'});
+var logger = log4js.getLogger("pos-app");
+
 var connection = mysql.createConnection({
     host: 'localhost',
     user: 'user',
@@ -20,6 +24,7 @@ var port = process.env.PORT || 9091;
 var router = express.Router();
 
 router.get('/', function (req, res) {
+    logger.trace("Request To Pos-api");
     res.json(
         {
             response: 'S1000',
@@ -31,6 +36,7 @@ router.get('/', function (req, res) {
 router.get('/products', function (req, res) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    logger.trace("Get Products List");
     res.json(
         {
             product: [
@@ -73,26 +79,41 @@ router.get('/products/:id', function (req, res, value) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     var productId = req.params.id;
-    console.log("Prodcut Id : " + productId);
+    logger.trace("Get Product with {}", productId);
     var result;
-    connection.query('SELECT * from user', function (err, rows, fields) {
-        connection.end();
+    connection.query('SELECT * from user where id = ' + productId, function (err, rows, fields) {
         if (!err) {
-            console.log('The solution is: ', rows);
-            result = this.rows;
-
+            console.log('Response Is : ', rows);
+            result = rows;
+            if (result != '') {
+                logger.trace("Successfully get Product {}", rows);
+                res.json(result);
+            } else {
+                logger.trace("System Doesn't have Product");
+                var errorResponse = {
+                    statusCode: "E1000",
+                    description: "This user not Found"
+                }
+                res.json(errorResponse);
+            }
         }
         else {
+            var errorResponse = {
+                statusCode: "E1500",
+                description: "Database Connection failed"
+            }
             console.log('Error while performing Query.');
+            res.json(errorResponse);
         }
     });
-    res.json(result);
+    console.log("Exit");
 
 });
 
 router.get('/users', function (req, res) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    logger.trace("Get Users List");
     res.json(
         {
             users: [

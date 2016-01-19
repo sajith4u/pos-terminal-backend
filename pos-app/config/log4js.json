@@ -1,0 +1,13 @@
+{
+  "appenders": [
+    {"type": "console"},
+    {
+      "type": "file",
+      "absolute": true,
+      "filename": "/hms/logs/pos-app/pos-debug.log",
+      "maxLogSize": 20480,
+      "backups": 10,
+      "category": "pos-app"
+    }
+  ]
+}
