@@ -32,7 +32,21 @@ router.get('/', function (req, res) {
         }
     );
 });
-
+router.post('/product', function (req, res) {
+    var product = req.body;
+    logger.trace("Preparing to add Product ", product);
+    res.json(req.body);
+});
+router.put('/product', function (req, res) {
+    var product = req.body;
+    logger.trace("Preparing to Update Product ", product);
+    res.json(req.body);
+});
+router.delete('/product:id', function (req, res) {
+    var product = req.body;
+    logger.trace("Preparing to Delete Product ", product);
+    res.json(req.body);
+});
 router.get('/products', function (req, res) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
