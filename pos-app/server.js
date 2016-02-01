@@ -88,7 +88,19 @@ router.get('/products', function (req, res) {
         }
     );
 });
+router.get('/reporting', function (req, res) {
 
+});
+router.get('/sell', function (req, res) {
+
+});
+router.get('/groups', function (req, res) {
+
+});
+
+router.get('/reporting', function (req, res) {
+
+});
 router.get('/products/:id', function (req, res, value) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
