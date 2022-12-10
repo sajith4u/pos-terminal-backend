@@ -8,7 +8,7 @@
     <artifactId>pos-terminal</artifactId>
     <version>1.0.0</version>
     <properties>
-        <spring.version>4.2.7.RELEASE</spring.version>
+        <spring.version>6.0.0</spring.version>
         <swagger-version>1.3.8</swagger-version>
         <conf.file.path>../generated-resources/appassembler/jsw/pos-terminal/conf</conf.file.path>
     </properties>
